@@ -18,16 +18,16 @@
     "video-transformation",
     "avfoundation"
   ],
-  "author": "Sanjeev Kumar Rao <your.email@example.com>",
+  "author": "Sanjeev Kumar Badrinath sanjeevkumarrao@gmail.com",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sanjeevkumarrao/react-native-video-transformer.git"
+    "url": "https://github.com/sanjeevkumarraob/react-native-video-transformer.git"
   },
   "bugs": {
-    "url": "https://github.com/sanjeevkumarrao/react-native-video-transformer/issues"
+    "url": "https://github.com/sanjeevkumarraob/react-native-video-transformer/issues"
   },
-  "homepage": "https://github.com/sanjeevkumarrao/react-native-video-transformer#readme",
+  "homepage": "https://github.com/sanjeevkumarraob/react-native-video-transformer#readme",
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
