@@ -285,7 +285,7 @@ MIT © Sanjeev Kumar Rao
 
 ## Support
 
-- GitHub Issues: [https://github.com/sanjeevkumarrao/react-native-video-transformer/issues](https://github.com/sanjeevkumarrao/react-native-video-transformer/issues)
+- GitHub Issues: [https://github.com/sanjeevkumarraob/react-native-video-transformer/issues](https://github.com/sanjeevkumarraob/react-native-video-transformer/issues)
 - Email: your.email@example.com
 
 ## Credits
