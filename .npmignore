@@ -1,0 +1,28 @@
+# Example app
+example/
+
+# Tests
+__tests__/
+**/*.test.js
+**/*.test.ts
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# CI
+.travis.yml
+.circleci/
+.github/
+
+# Misc
+*.log
+*.tgz
+node_modules/

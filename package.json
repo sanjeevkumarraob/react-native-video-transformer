@@ -1,0 +1,39 @@
+{
+  "name": "@sanjeevkumarrao/react-native-video-transformer",
+  "version": "1.0.0",
+  "description": "A React Native library to transform and rotate videos on iOS and Android",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "react-native",
+    "video",
+    "rotate",
+    "transform",
+    "ios",
+    "android",
+    "video-rotation",
+    "video-transformation",
+    "avfoundation"
+  ],
+  "author": "Sanjeev Kumar Rao <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanjeevkumarrao/react-native-video-transformer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sanjeevkumarrao/react-native-video-transformer/issues"
+  },
+  "homepage": "https://github.com/sanjeevkumarrao/react-native-video-transformer#readme",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-native": "^0.73.0"
+  }
+}
