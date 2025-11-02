@@ -32,7 +32,8 @@ class VideoTransformerModule(reactContext: ReactApplicationContext) : ReactConte
                 return
             }
 
-            val outputFile = File(reactApplicationContext.cacheDir, "transformed_${UUID.randomUUID()}.mp4")
+            val timestamp = System.currentTimeMillis() / 1000
+            val outputFile = File(reactApplicationContext.cacheDir, "video_$timestamp.mp4")
 
             processVideoWithGL(
                 inputPath = normalizedPath,
@@ -103,7 +104,8 @@ class VideoTransformerModule(reactContext: ReactApplicationContext) : ReactConte
             val cropRect = calculateCropRect(videoWidth, videoHeight, targetAspectRatio, position)
             extractor.release()
 
-            val outputFile = File(reactApplicationContext.cacheDir, "transformed_${UUID.randomUUID()}.mp4")
+            val timestamp = System.currentTimeMillis() / 1000
+            val outputFile = File(reactApplicationContext.cacheDir, "video_$timestamp.mp4")
 
             processVideoWithGL(
                 inputPath = normalizedPath,

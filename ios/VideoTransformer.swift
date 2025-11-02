@@ -90,7 +90,8 @@ class VideoTransformer: NSObject {
     videoComposition.frameDuration = CMTime(value: 1, timescale: 30)
 
     // Export
-    let outputFileName = "transformed_\(UUID().uuidString).mp4"
+    let timestamp = Int(Date().timeIntervalSince1970)
+    let outputFileName = "video_\(timestamp).mp4"
     let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent(outputFileName)
 
     guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
@@ -277,7 +278,8 @@ class VideoTransformer: NSObject {
     videoComposition.frameDuration = CMTime(value: 1, timescale: 30)
 
     // Export
-    let outputFileName = "transformed_\(UUID().uuidString).mp4"
+    let timestamp = Int(Date().timeIntervalSince1970)
+    let outputFileName = "video_\(timestamp).mp4"
     let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent(outputFileName)
 
     guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
@@ -449,7 +451,8 @@ class VideoTransformer: NSObject {
     videoComposition.frameDuration = CMTime(value: 1, timescale: 30)
 
     // Export
-    let outputFileName = "transformed_\(UUID().uuidString).mp4"
+    let timestamp = Int(Date().timeIntervalSince1970)
+    let outputFileName = "video_\(timestamp).mp4"
     let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent(outputFileName)
 
     guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
