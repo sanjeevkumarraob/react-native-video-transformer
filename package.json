@@ -1,6 +1,6 @@
 {
   "name": "@sanjeevkumarrao/react-native-video-transformer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React Native library to transform and rotate videos on iOS and Android",
   "main": "src/index.js",
   "types": "src/index.d.ts",
