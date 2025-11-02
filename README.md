@@ -5,7 +5,9 @@ A lightweight React Native library to rotate and transform videos on iOS and And
 ## Features
 
 ✅ Rotate videos by 90°, 180°, or 270° (clockwise/counter-clockwise)
-✅ Built with native iOS AVFoundation (no external dependencies)
+✅ Crop videos to different aspect ratios (16:9, 1:1, 9:16, 4:3, custom)
+✅ Flexible crop positioning (center, top, bottom, corners, etc.)
+✅ Built with native iOS AVFoundation and Android MediaCodec
 ✅ Preserves audio tracks
 ✅ High-quality export with configurable presets
 ✅ TypeScript support
@@ -31,11 +33,11 @@ cd ios && pod install
 
 ### Android
 
-Android implementation coming soon! Currently iOS-only.
+No additional setup required. Video transformation is now supported on both iOS and Android.
 
 ## Usage
 
-### Basic Example
+### Basic Example - Rotation
 
 ```javascript
 import { rotateVideo } from '@sanjeevkumarrao/react-native-video-transformer';
@@ -43,6 +45,20 @@ import { rotateVideo } from '@sanjeevkumarrao/react-native-video-transformer';
 // Rotate a video 90 degrees clockwise
 const rotatedPath = await rotateVideo('/path/to/video.mp4', 90);
 console.log('Rotated video saved at:', rotatedPath);
+```
+
+### Basic Example - Cropping
+
+```javascript
+import { cropToSquare, cropVideo } from '@sanjeevkumarrao/react-native-video-transformer';
+
+// Crop to square (1:1) for Instagram
+const squarePath = await cropToSquare('/path/to/video.mp4');
+console.log('Cropped video saved at:', squarePath);
+
+// Crop to custom aspect ratio with specific position
+const customPath = await cropVideo('/path/to/video.mp4', '16:9', { position: 'top' });
+console.log('Custom cropped video saved at:', customPath);
 ```
 
 ### With React Native Camera
@@ -151,6 +167,92 @@ Convenience method to rotate a video 180°.
 **Returns:**
 Promise<string> - Path to the rotated video file
 
+---
+
+### `cropVideo(inputPath, aspectRatio, options)`
+
+Crops a video to a specific aspect ratio.
+
+**Parameters:**
+- `inputPath` (string): Path to the input video file (file:// URI or absolute path)
+- `aspectRatio` (string): Desired aspect ratio (e.g., "16:9", "1:1", "9:16", "4:3")
+- `options` (object, optional): Cropping options
+  - `position` (string): Crop position - one of: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right' (default: 'center')
+
+**Returns:**
+Promise<string> - Path to the cropped video file
+
+**Example:**
+```javascript
+// Crop to 16:9 from center
+const outputPath = await cropVideo('/path/to/video.mp4', '16:9');
+
+// Crop to square from top
+const squarePath = await cropVideo('/path/to/video.mp4', '1:1', { position: 'top' });
+```
+
+---
+
+### `cropToSquare(inputPath, options)`
+
+Convenience method to crop a video to 1:1 aspect ratio (square).
+
+**Parameters:**
+- `inputPath` (string): Path to the input video file
+- `options` (object, optional): Cropping options (same as cropVideo)
+
+**Returns:**
+Promise<string> - Path to the cropped video file
+
+**Example:**
+```javascript
+const squarePath = await cropToSquare('/path/to/video.mp4');
+```
+
+---
+
+### `cropToWidescreen(inputPath, options)`
+
+Convenience method to crop a video to 16:9 aspect ratio (widescreen).
+
+**Parameters:**
+- `inputPath` (string): Path to the input video file
+- `options` (object, optional): Cropping options
+
+**Returns:**
+Promise<string> - Path to the cropped video file
+
+---
+
+### `cropToStory(inputPath, options)`
+
+Convenience method to crop a video to 9:16 aspect ratio (Instagram Story/TikTok format).
+
+**Parameters:**
+- `inputPath` (string): Path to the input video file
+- `options` (object, optional): Cropping options
+
+**Returns:**
+Promise<string> - Path to the cropped video file
+
+**Example:**
+```javascript
+const storyPath = await cropToStory('/path/to/video.mp4');
+```
+
+---
+
+### `cropTo4x3(inputPath, options)`
+
+Convenience method to crop a video to 4:3 aspect ratio.
+
+**Parameters:**
+- `inputPath` (string): Path to the input video file
+- `options` (object, optional): Cropping options
+
+**Returns:**
+Promise<string> - Path to the cropped video file
+
 ## Common Use Cases
 
 ### Fix Front Camera Orientation
@@ -182,6 +284,40 @@ async function rotateMultipleVideos(videoPaths) {
   const promises = videoPaths.map(path => rotateVideo(path, 90));
   const rotatedPaths = await Promise.all(promises);
   return rotatedPaths;
+}
+```
+
+### Prepare Videos for Social Media
+
+```javascript
+import { cropToSquare, cropToStory, cropToWidescreen } from '@sanjeevkumarrao/react-native-video-transformer';
+
+// Crop for Instagram post (square)
+const instagramPath = await cropToSquare('/path/to/video.mp4');
+
+// Crop for Instagram Story or TikTok
+const storyPath = await cropToStory('/path/to/video.mp4', { position: 'center' });
+
+// Crop for YouTube (widescreen)
+const youtubePath = await cropToWidescreen('/path/to/video.mp4');
+
+// Custom aspect ratio with specific positioning
+const customPath = await cropVideo('/path/to/video.mp4', '21:9', { position: 'bottom' });
+```
+
+### Combine Rotation and Cropping
+
+```javascript
+import { rotateVideo, cropToSquare } from '@sanjeevkumarrao/react-native-video-transformer';
+
+async function prepareForInstagram(videoPath) {
+  // First rotate if needed
+  const rotatedPath = await rotateVideo(videoPath, 90);
+
+  // Then crop to square
+  const finalPath = await cropToSquare(rotatedPath);
+
+  return finalPath;
 }
 ```
 
@@ -217,7 +353,10 @@ try {
 | `EXPORT_ERROR` | Failed to create export session |
 | `EXPORT_FAILED` | Video export failed |
 | `EXPORT_CANCELLED` | Video export was cancelled |
-| `NOT_IMPLEMENTED` | Feature not yet implemented (Android) |
+| `INVALID_ASPECT_RATIO` | Invalid aspect ratio format provided |
+| `ROTATION_ERROR` | Failed to rotate video |
+| `CROP_ERROR` | Failed to crop video |
+| `PROCESSING_ERROR` | General video processing error |
 
 ## Technical Details
 
@@ -225,14 +364,25 @@ try {
 
 - Uses native AVFoundation framework
 - Creates AVMutableComposition with proper transforms
+- Supports both rotation and cropping via AVMutableVideoCompositionLayerInstruction
 - Exports with AVAssetExportSession
 - Preserves audio tracks automatically
 - Output format: MP4 (H.264)
 - Quality: Highest available
+- Handles video orientation automatically
+
+### Android Implementation
+
+- Uses MediaCodec for video encoding/decoding
+- Uses MediaMuxer for combining tracks
+- Supports rotation and aspect ratio cropping
+- Preserves audio tracks
+- Output format: MP4 (H.264)
+- Hardware-accelerated encoding when available
 
 ### Output Files
 
-Rotated videos are saved to the temporary directory with the naming pattern:
+Transformed videos (rotated or cropped) are saved to the temporary/cache directory with the naming pattern:
 ```
 transformed_<UUID>.mp4
 ```
@@ -242,14 +392,18 @@ You're responsible for moving or copying the file to a permanent location if nee
 ## Performance
 
 - **iOS**: Fast, uses hardware acceleration via AVFoundation
+- **Android**: Hardware-accelerated encoding when available via MediaCodec
 - **File Size**: Output size depends on original video quality and duration
 - **Memory**: Efficient, processes videos in chunks
+- **Processing Time**: Varies based on video length, resolution, and device capabilities
 
 ## Limitations
 
-- Android implementation coming soon
 - Currently supports MP4 output format only
 - Requires iOS 11.0 or later
+- Requires Android API level 21 (Lollipop) or later
+- Android implementation uses surface-based encoding (may have limitations on some devices)
+- Maximum video resolution depends on device capabilities
 
 ## Troubleshooting
 

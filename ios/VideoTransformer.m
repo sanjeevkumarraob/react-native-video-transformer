@@ -7,4 +7,17 @@ RCT_EXTERN_METHOD(rotateVideo:(NSString *)inputPath
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(cropVideo:(NSString *)inputPath
+                  aspectRatio:(NSString *)aspectRatio
+                  position:(NSString *)position
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(cropAndRotateVideo:(NSString *)inputPath
+                  aspectRatio:(NSString *)aspectRatio
+                  position:(NSString *)position
+                  angle:(NSInteger)angle
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+
 @end
